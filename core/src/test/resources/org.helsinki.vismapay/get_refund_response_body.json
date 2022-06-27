@@ -1,0 +1,22 @@
+{
+  "result": 0,
+  "refund": {
+    "refund_id": 123,
+    "amount": -114,
+    "created_at": "2018-09-12 09:09:01",
+    "order_number": "test_order_1",
+    "status": 9,
+    "payment_products": [
+      {
+        "id": "sku123",
+        "product_id": 1124,
+        "title": "Product 2",
+        "count": 1,
+        "pretax_price": 100,
+        "tax": 14,
+        "price": 114,
+        "type": 1
+      }
+    ]
+  }
+}

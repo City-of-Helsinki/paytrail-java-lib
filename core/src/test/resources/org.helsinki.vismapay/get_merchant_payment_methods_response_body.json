@@ -1,0 +1,25 @@
+{
+  "result": 0,
+  "payment_methods": [
+    {
+      "name": "Mobilepay",
+      "selected_value": "mobilepay",
+      "group": "wallets",
+      "min_amount": 0,
+      "max_amount": 100000,
+      "img": "https://www.vismapay.com",
+      "img_timestamp": 1479131257,
+      "currency": ["EUR", "SEK"]
+    },
+    {
+      "name": "Osuuspankki",
+      "selected_value": "osuuspankki",
+      "group": "banks",
+      "min_amount": 1,
+      "max_amount": 6000000,
+      "img": "https://www.vismapay.com/e-payments/method_logos/osuuspankki.png",
+      "img_timestamp": 1475746841,
+      "currency": ["EUR"]
+    }
+  ]
+}

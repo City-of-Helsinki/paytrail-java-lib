@@ -1,0 +1,12 @@
+{
+  "order_number": "a",
+  "amount": 100,
+  "currency": "EUR",
+  "authcode": "23746DEF83C7EC93A1A6D9E03E569032804535230DC3DEDDF575699456C63BFF",
+  "payment_method": {
+    "type": "card",
+    "lang": "fi"
+  },
+  "api_key": "TESTAPIKEY",
+  "version": "w3.1"
+}

@@ -1,0 +1,8 @@
+{
+  "result": 0,
+  "settled": 1,
+  "source": {
+    "object": "card",
+    "card_token": "card_token"
+  }
+}

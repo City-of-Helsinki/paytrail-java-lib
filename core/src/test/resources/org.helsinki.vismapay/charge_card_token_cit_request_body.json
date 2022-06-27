@@ -1,0 +1,15 @@
+{
+  "order_number": "a",
+  "amount": 100,
+  "currency": "EUR",
+  "card_token": "card_token",
+  "initiator": {
+    "type": 2,
+    "lang": "fi",
+    "return_url": "https://localhost/return",
+    "notify_url": "https://localhost/return"
+  },
+  "authcode": "AD8F8D0FB039C5685D54E9EC1DEEA2972C00C46F2ED4B260481BD225209C0982",
+  "api_key": "TESTAPIKEY",
+  "version": "w3.1"
+}

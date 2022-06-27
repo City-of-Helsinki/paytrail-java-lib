@@ -1,0 +1,7 @@
+{
+  "result": 30,
+  "verify": {
+    "token": "test_token",
+    "type": "3ds"
+  }
+}

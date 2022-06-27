@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.helsinki</groupId>
+    <artifactId>visma-pay-java-lib</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.1-SNAPSHOT</version>
+    <name>visma-pay/visma-pay</name>
+    <description>Visma Pay Java Library</description>
+    <url>https://vismapay.fi</url>
+
+    <properties>
+        <log4j2.version>2.16.0</log4j2.version>
+    </properties>
+
+    <modules>
+        <module>core</module>
+        <module>example</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-bom</artifactId>
+                <version>2.16.0</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>talpa-artifacts</id>
+            <url>https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/talpa-artifacts/maven/v1</url>
+        </repository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>talpa-artifacts</id>
+            <url>https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/talpa-artifacts/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

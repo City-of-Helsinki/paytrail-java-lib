@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Something went wrong!</h1>
+<th:block th:if="${error != null}">
+    <h2 th:text="'Error was: ' + ${error}"></h2>
+</th:block>
+<th:block th:if="${error == null}">
+    <h2>We have no idea what happened :(</h2>
+</th:block>
+<a href="/">Go Home</a>
+</body>
+</html>

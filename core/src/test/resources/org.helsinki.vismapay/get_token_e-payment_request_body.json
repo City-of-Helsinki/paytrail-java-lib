@@ -1,0 +1,26 @@
+{
+  "order_number": "a",
+  "amount": 100,
+  "currency": "EUR",
+  "authcode": "23746DEF83C7EC93A1A6D9E03E569032804535230DC3DEDDF575699456C63BFF",
+  "payment_method": {
+    "type": "e-payment",
+    "return_url": "https://localhost/return",
+    "notify_url": "https://localhost/return",
+    "lang": "fi",
+    "skip_receipt": 0
+  },
+  "products": [
+    {
+      "id": "as123",
+      "title": "Product 1",
+      "count": 1,
+      "pretax_price": 300,
+      "tax": 24,
+      "price": 372,
+      "type": 1
+    }
+  ],
+  "api_key": "TESTAPIKEY",
+  "version": "w3.1"
+}
