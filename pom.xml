@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.helsinki</groupId>
-    <artifactId>visma-pay-java-lib</artifactId>
+    <artifactId>paytrail-java-lib</artifactId>
     <packaging>pom</packaging>
     <version>1.0.1-SNAPSHOT</version>
-    <name>visma-pay/visma-pay</name>
-    <description>Visma Pay Java Library</description>
+    <name>paytrail-java-lib</name>
+    <description>Paytrail Java Library</description>
     <url>https://vismapay.fi</url>
 
     <properties>

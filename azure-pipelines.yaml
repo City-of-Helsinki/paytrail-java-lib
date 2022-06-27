@@ -20,4 +20,4 @@ resources:
       name: talpa-verkkokauppa/talpa-verkkokauppa-pipelines
 
 extends:
-  template: azure-pipelines-talpa-verkkokauppa-visma-pay-java-lib.yml@talpa-verkkokauppa-pipelines
+  template: azure-pipelines-talpa-verkkokauppa-paytrail-java-lib.yml@talpa-verkkokauppa-pipelines

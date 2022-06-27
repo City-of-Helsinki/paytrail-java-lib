@@ -11,10 +11,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <artifactId>visma-pay-java-lib-example</artifactId>
+    <artifactId>paytrail-java-lib-example</artifactId>
     <version>1.0.1-SNAPSHOT</version>
-    <name>Visma Pay Java Library Example</name>
-    <description>Visma Pay Java Library Examples</description>
+    <name>Paytrail Java Library Example</name>
+    <description>Paytrail Java Library Examples</description>
 
     <properties>
         <java.version>11</java.version>
@@ -25,12 +25,28 @@
     <dependencies>
         <dependency>
             <groupId>org.helsinki</groupId>
-            <artifactId>visma-pay-java-lib-core</artifactId>
+            <artifactId>paytrail-java-lib-core</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

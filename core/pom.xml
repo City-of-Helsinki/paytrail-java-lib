@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>visma-pay-java-lib</artifactId>
+        <artifactId>paytrail-java-lib</artifactId>
         <groupId>org.helsinki</groupId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>visma-pay-java-lib-core</artifactId>
+    <artifactId>paytrail-java-lib-core</artifactId>
     <version>1.0.1-SNAPSHOT</version>
-    <name>Visma Pay Java Library Core</name>
-    <description>Visma Pay Java Library Implementation</description>
+    <name>Paytrail Java Library Core</name>
+    <description>Paytrail Java Library Implementation</description>
     <url>https://vismapay.fi</url>
 
     <properties>
@@ -21,6 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <log4j2.version>2.16.0</log4j2.version>
     </properties>
 
     <dependencies>
@@ -65,19 +66,10 @@
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>2.6</version>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-            <version>1.7.12</version>
-        </dependency>
+
     </dependencies>
 
     <distributionManagement>
