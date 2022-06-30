@@ -3,9 +3,7 @@ package org.helsinki.paytrail.request.common;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
-import org.helsinki.paytrail.response.paymentmethods.PaytrailPaymentMethodsResponse;
 import org.helsinki.paytrail.util.DateTimeUtil;
 import org.helsinki.paytrail.util.Pair;
 import lombok.SneakyThrows;
@@ -16,10 +14,7 @@ import org.helsinki.paytrail.PaytrailClient;
 import org.helsinki.paytrail.exception.PaytrailResponseException;
 import org.helsinki.paytrail.response.PaytrailResponse;
 
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -55,8 +50,8 @@ public abstract class PaytrailRequest<T extends PaytrailResponse> {
 		String responseValue = response.getValue();
 		try {
 			paytrailResponse = parseResponse(responseValue);
-		} catch (JsonSyntaxException ignored) {
-
+		} catch (JsonSyntaxException exception) {
+			log.info("Paytrail request parsing ignored error was . {}", exception.getMessage());
 		}
 
 		if (!response.getKey().isSuccessful()) {
@@ -105,7 +100,7 @@ public abstract class PaytrailRequest<T extends PaytrailResponse> {
 	}
 
 	protected Request.Builder applyDefaultAuthHeaders(PaytrailClient client, Request.Builder request, String checkoutMethod) {
-		request.addHeader(String.valueOf(PaytrailAuthHeaders.CHECKOUT_ACCOUNT), client.getMerchantId());
+		request.addHeader(String.valueOf(PaytrailAuthHeaders.CHECKOUT_ACCOUNT), client.getInternalMerchantId());
 		request.addHeader(String.valueOf(PaytrailAuthHeaders.CHECKOUT_ALGORITHM), PaytrailClient.CHECKOUT_ALGORITHM);
 		request.addHeader(String.valueOf(PaytrailAuthHeaders.CHECKOUT_METHOD), checkoutMethod);
 		request.addHeader(String.valueOf(PaytrailAuthHeaders.CHECKOUT_NONCE), UUID.randomUUID().toString());

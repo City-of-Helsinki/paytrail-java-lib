@@ -3,6 +3,7 @@
 *.ear
 
 target
+core/debug
 *.class
 
 .idea

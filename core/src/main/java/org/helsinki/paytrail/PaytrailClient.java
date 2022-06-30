@@ -1,7 +1,11 @@
 package org.helsinki.paytrail;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
 import org.helsinki.paytrail.service.PaytrailSignatureService;
+import org.helsinki.paytrail.util.DateTimeUtil;
 import org.helsinki.paytrail.util.Pair;
 import lombok.Data;
 import lombok.NonNull;
@@ -13,6 +17,8 @@ import org.helsinki.paytrail.response.PaytrailResponse;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -28,26 +34,29 @@ public class PaytrailClient implements Serializable {
     public final static long DEFAULT_TIMEOUT_SECONDS = 60;
 
     private static final long serialVersionUID = -893265874836L;
-    private final String merchantId;
+    private final String internalMerchantId;
     private final String secretKey;
     private final String version;
     private final String baseUrl;
     private transient OkHttpClient httpClient;
 
-    public PaytrailClient(String merchantId, String secretKey) {
-        this(merchantId, secretKey, "wm3.1");
+    // Merchant ID for the item. Required for Shop-in-Shop payments, do not use for normal payments.
+    private String customerMerchantId;
+
+    public PaytrailClient(String internalMerchantId, String secretKey) {
+        this(internalMerchantId, secretKey, "wm3.1");
     }
 
-    public PaytrailClient(String merchantId, String secretKey, String version) {
-        this(merchantId, secretKey, version, API_URL, defaultHttpClient(secretKey));
+    public PaytrailClient(String internalMerchantId, String secretKey, String version) {
+        this(internalMerchantId, secretKey, version, API_URL, defaultHttpClient(secretKey));
     }
 
-    public PaytrailClient(String merchantId, String secretKey, String version, String baseUrl) {
-        this(merchantId, secretKey, version, baseUrl, defaultHttpClient(secretKey));
+    public PaytrailClient(String internalMerchantId, String secretKey, String version, String baseUrl) {
+        this(internalMerchantId, secretKey, version, baseUrl, defaultHttpClient(secretKey));
     }
 
-    public PaytrailClient(String merchantId, String secretKey, String version, String baseUrl, OkHttpClient client) {
-        this.merchantId = merchantId;
+    public PaytrailClient(String internalMerchantId, String secretKey, String version, String baseUrl, OkHttpClient client) {
+        this.internalMerchantId = internalMerchantId;
         this.secretKey = secretKey;
         this.version = version;
         this.baseUrl = baseUrl;
@@ -67,11 +76,15 @@ public class PaytrailClient implements Serializable {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 log.info("Response for {} : {}", call.request().url().toString(), response.code());
-
+                debugResponseAndHeaders(call, response);
                 try (ResponseBody body = response.body()) {
-                    responseFuture.complete(new Pair<>(response, body.string()));
+                    String bodyString = body.string();
+                    debugResponseBody(call, bodyString);
+                    responseFuture.complete(new Pair<>(response, bodyString));
                 }
             }
+
+
         });
 
         return responseFuture.thenApply(result -> {
@@ -85,6 +98,25 @@ public class PaytrailClient implements Serializable {
             log.info("exception message: {}", tr.getMessage());
             return PaytrailResponseException.PaytrailFailedResponse.of(tr, request.getResponseType());
         });
+    }
+
+    private void debugResponseBody(Call call, String bodyString) throws IOException {
+        if (Boolean.parseBoolean(System.getenv("DEBUG_CLIENT"))) {
+            ObjectMapper mapper = new ObjectMapper();
+            String bodyWriteAsString = mapper.writeValueAsString(bodyString);
+            bodyWriteAsString = bodyWriteAsString.substring(1);
+            bodyWriteAsString = bodyWriteAsString.substring(0, bodyWriteAsString.length() - 1);
+            bodyWriteAsString = bodyWriteAsString.replace("\\\"","\"");
+            Files.writeString(Path.of("debug/"+ call.request().url().encodedPath().replace("/","-").substring(1) + "-body.json"), bodyWriteAsString);
+        }
+    }
+    private void debugResponseAndHeaders(Call call, Response response) throws IOException {
+        if (Boolean.parseBoolean(System.getenv("DEBUG_CLIENT"))) {
+            ObjectMapper mapper = new ObjectMapper();
+            String fileName = call.request().url().encodedPath().replace("/", "-").substring(1);
+            Files.writeString(Path.of("debug/"+ fileName + "-response.json"), mapper.writeValueAsString(response));
+            Files.writeString(Path.of("debug/"+ fileName + "-request-headers.json"), mapper.writeValueAsString(call.request().headers().toMultimap()));
+        }
     }
 
     public static OkHttpClient defaultHttpClient(String secretKey) {
@@ -106,11 +138,18 @@ public class PaytrailClient implements Serializable {
                     .method(original.method(), original.body())
                     .addHeader(String.valueOf(PaytrailAuthHeaders.SIGNATURE), calculatedSignature)
                     .build();
-
+            debugRequest(request);
             return chain.proceed(request);
         });
 
         return builder.build();
+    }
+
+    private static void debugRequest(Request request) throws IOException {
+        if (Boolean.parseBoolean(System.getenv("DEBUG_CLIENT"))) {
+            ObjectMapper mapper = new ObjectMapper();
+            Files.writeString(Path.of("debug/"+ request.url().encodedPath().replace("/","-").substring(1) + "-headers-with-signature.json"), mapper.writeValueAsString(request.headers().toMultimap()));
+        }
     }
 
 
