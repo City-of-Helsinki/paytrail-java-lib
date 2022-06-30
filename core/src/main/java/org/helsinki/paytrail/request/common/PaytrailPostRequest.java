@@ -1,4 +1,4 @@
-package org.helsinki.paytrail.request;
+package org.helsinki.paytrail.request.common;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;

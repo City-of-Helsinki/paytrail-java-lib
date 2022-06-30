@@ -6,7 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import org.helsinki.paytrail.PaytrailClient;
-import org.helsinki.paytrail.request.PaytrailGetRequest;
+import org.helsinki.paytrail.request.common.PaytrailGetRequest;
 import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
 import org.helsinki.paytrail.response.paymentmethods.PaytrailPaymentMethodsResponse;
 

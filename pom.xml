@@ -10,7 +10,7 @@
     <version>1.0.1-SNAPSHOT</version>
     <name>paytrail-java-lib</name>
     <description>Paytrail Java Library</description>
-    <url>https://vismapay.fi</url>
+    <url>https://docs.paytrail.com/#/</url>
 
     <properties>
         <log4j2.version>2.16.0</log4j2.version>

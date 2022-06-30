@@ -1,18 +1,18 @@
-package org.helsinki.paytrail.response.paymentmethods;
+package org.helsinki.paytrail.response.payments;
 
-import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.helsinki.paytrail.model.paymentmethods.PaytrailPaymentMethod;
+import org.helsinki.paytrail.model.payments.PaytrailPayment;
 import org.helsinki.paytrail.response.PaytrailResponse;
 
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class PaytrailPaymentMethodsResponse extends PaytrailResponse {
+public class PaytrailPaymentCreateResponse extends PaytrailResponse {
 
-	private List<PaytrailPaymentMethod> paymentMethods;
+	private PaytrailPayment payment;
 
 	private String[] errors;
 }

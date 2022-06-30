@@ -1,9 +1,13 @@
 package org.helsinki.paytrail.request.paymentmethods;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.RequestBody;
 import org.helsinki.paytrail.PaytrailClient;
 import org.helsinki.paytrail.PaytrailCommonTest;
+import org.helsinki.paytrail.mapper.PaytrailPaymentMethodsResponseMapper;
+import org.helsinki.paytrail.response.PaytrailResponse;
 import org.helsinki.paytrail.response.paymentmethods.PaytrailPaymentMethodsResponse;
 import org.helsinki.paytrail.service.PaytrailSignatureService;
 import org.junit.jupiter.api.Assertions;
@@ -15,10 +19,16 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+@Slf4j
 class PaytrailPaymentMethodsRequestTest extends PaytrailCommonTest {
+    PaytrailPaymentMethodsResponseMapper mapper;
+
+    public PaytrailPaymentMethodsRequestTest() {
+        this.mapper = new PaytrailPaymentMethodsResponseMapper(new ObjectMapper());
+    }
 
     @Test
-    void getMerchantsPaymentProviders() throws NoSuchAlgorithmException, InvalidKeyException {
+    void getMerchantsPaymentProviders() throws NoSuchAlgorithmException, InvalidKeyException, ExecutionException, InterruptedException {
 
         TreeMap<String, String> headers = new TreeMap<>();
 
@@ -75,9 +85,12 @@ class PaytrailPaymentMethodsRequestTest extends PaytrailCommonTest {
 
         CompletableFuture<PaytrailPaymentMethodsResponse> response = client.sendRequest(request);
 
+        PaytrailPaymentMethodsResponse methodsResponse = mapper.to(response.get());
+        Assertions.assertEquals(18, methodsResponse.getPaymentMethods().size());
 
         try {
-            System.out.println(gson.toJson(response.get()));
+            String json = gson.toJson(response.get());
+            System.out.println(json);
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

@@ -1,9 +1,11 @@
-package org.helsinki.paytrail.request;
+package org.helsinki.paytrail.request.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
+import org.helsinki.paytrail.response.paymentmethods.PaytrailPaymentMethodsResponse;
 import org.helsinki.paytrail.util.DateTimeUtil;
 import org.helsinki.paytrail.util.Pair;
 import lombok.SneakyThrows;
@@ -14,7 +16,10 @@ import org.helsinki.paytrail.PaytrailClient;
 import org.helsinki.paytrail.exception.PaytrailResponseException;
 import org.helsinki.paytrail.response.PaytrailResponse;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -22,6 +27,8 @@ import java.util.concurrent.CompletableFuture;
 public abstract class PaytrailRequest<T extends PaytrailResponse> {
 
 	protected Gson gson;
+
+	// Used to store the transaction id of the payment.
 	private String checkoutTransactionId;
 
 	public abstract String path();
@@ -44,12 +51,25 @@ public abstract class PaytrailRequest<T extends PaytrailResponse> {
 
 	@SneakyThrows
 	public T parseResponse(Pair<Response, String> response) {
-		T vismaPayResponse = parseResponse(response.getValue());
+		T paytrailResponse = null;
+		String responseValue = response.getValue();
+		try {
+			paytrailResponse = parseResponse(responseValue);
+		} catch (JsonSyntaxException ignored) {
+
+		}
 
 		if (!response.getKey().isSuccessful()) {
-			throw new PaytrailResponseException(vismaPayResponse, "Response from Paytrail API wasn't a success response");
+			throw new PaytrailResponseException(paytrailResponse, "Response from Paytrail API wasn't a success response");
 		}
-		return vismaPayResponse;
+
+		// If data cant be parsed here, add it to resultJson field for further process.
+		if (responseValue != null) {
+			T responseWithJson = getResponseType().getDeclaredConstructor().newInstance();
+			responseWithJson.setResultJson(responseValue);
+			return responseWithJson;
+		}
+		return paytrailResponse;
 	}
 
 	public T parseResponse(String json) throws JsonSyntaxException {

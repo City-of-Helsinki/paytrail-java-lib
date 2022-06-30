@@ -1,7 +1,7 @@
 Unofficial Paytrail Java Library
 =
 
-See documentation at https://www.vismapay.com/docs/web_payments/
+See documentation at https://docs.paytrail.com/#/
 
 # Install
 

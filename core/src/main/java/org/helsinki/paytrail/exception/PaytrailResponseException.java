@@ -21,13 +21,13 @@ public class PaytrailResponseException extends IOException {
 
 	@Data
 	@EqualsAndHashCode(callSuper = true)
-	public static class VismaPayFailedResponse extends PaytrailResponse {
+	public static class PaytrailFailedResponse extends PaytrailResponse {
 		private final String message;
 
 		public static PaytrailResponse of(Throwable throwable) {
 			if (throwable instanceof PaytrailResponseException)
 				return ((PaytrailResponseException)throwable).getResponse();
-			return new VismaPayFailedResponse(throwable.toString());
+			return new PaytrailFailedResponse(throwable.toString());
 		}
 
 		public static <T> T of(Throwable throwable, Class<T> clazz) {

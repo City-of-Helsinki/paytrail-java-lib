@@ -8,7 +8,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.helsinki.paytrail.exception.PaytrailResponseException;
-import org.helsinki.paytrail.request.PaytrailRequest;
+import org.helsinki.paytrail.request.common.PaytrailRequest;
 import org.helsinki.paytrail.response.PaytrailResponse;
 
 import java.io.IOException;
@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Data
 @Slf4j
 public class PaytrailClient implements Serializable {
+
 
     public final static String API_URL = "https://services.paytrail.com";
 
@@ -80,9 +81,10 @@ public class PaytrailClient implements Serializable {
                     result.getValue()
             );
             return request.parseResponse(result);
-        }).exceptionally((tr) ->
-                PaytrailResponseException.VismaPayFailedResponse.of(tr, request.getResponseType())
-        );
+        }).exceptionally((tr) -> {
+            log.info("exception message: {}", tr.getMessage());
+            return PaytrailResponseException.PaytrailFailedResponse.of(tr, request.getResponseType());
+        });
     }
 
     public static OkHttpClient defaultHttpClient(String secretKey) {

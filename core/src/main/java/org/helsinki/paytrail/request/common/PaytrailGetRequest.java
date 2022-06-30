@@ -1,4 +1,4 @@
-package org.helsinki.paytrail.request;
+package org.helsinki.paytrail.request.common;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;

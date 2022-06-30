@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class PaytrailPaymentMethod implements Serializable {
 	private String id;
+	private String name;
 	private String group;
 	private String icon;
 	private String svg;
