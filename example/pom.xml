@@ -75,15 +75,15 @@
 
     <distributionManagement>
         <repository>
-            <id>talpa-artifacts</id>
-            <url>https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/talpa-artifacts/maven/v1</url>
+            <id>${server.id}</id>
+            <url>https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/${server.id}/maven/v1</url>
         </repository>
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>talpa-artifacts</id>
-            <url>https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/talpa-artifacts/maven/v1</url>
+            <id>${server.id}</id>
+            <url>https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/${server.id}/maven/v1</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
