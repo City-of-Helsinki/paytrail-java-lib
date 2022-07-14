@@ -35,30 +35,13 @@
         </plugins>
     </build>
 
+
     <profiles>
         <profile>
             <id>development</id>
-            <repositories>
-                <repository>
-                    <id>talpa-artifacts-dev</id>
-                    <url>
-                        https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/talpa-artifacts-dev/maven/v1
-                    </url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-        </profile>
-
-        <profile>
-            <id>test-repository</id>
             <activation>
                 <property>
-                    <name>useTestRepo</name>
+                    <name>useDevRepository</name>
                     <value>true</value>
                 </property>
             </activation>
@@ -89,14 +72,13 @@
         </profile>
 
         <profile>
-            <id>prod-repository</id>
+            <id>production</id>
             <activation>
                 <property>
-                    <name>!useTestRepo</name>
+                    <name>!useDevRepository</name>
                 </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-            </properties>
             <distributionManagement>
                 <repository>
                     <id>talpa-artifacts</id>
