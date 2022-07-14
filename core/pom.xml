@@ -75,25 +75,4 @@
 
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>${server.id}</id>
-            <url>https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/${server.id}/maven/v1
-            </url>
-        </repository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>${server.id}</id>
-            <url>https://pkgs.dev.azure.com/City-of-Helsinki/talpa-verkkokauppa/_packaging/${server.id}/maven/v1
-            </url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>
