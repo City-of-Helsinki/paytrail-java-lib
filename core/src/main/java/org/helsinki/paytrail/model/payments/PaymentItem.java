@@ -6,7 +6,7 @@ import lombok.Data;
 public class PaymentItem {
 
     public String stamp;
-    public String regerence;
+    public String reference;
     public String merchant;
     public int unitPrice;
     public int units;
