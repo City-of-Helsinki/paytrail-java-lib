@@ -31,7 +31,7 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
 
         PaytrailPaymentCreateRequest.CreatePaymentPayload payload = new PaytrailPaymentCreateRequest.CreatePaymentPayload();
 
-        payload.setStamp("d2568f2a-e4c6-40ba-a7cd-d573382ce548");
+        payload.setStamp("d2568f2a-e4c6-40ba-a7cd-d573382ce549");
 
         payload.setReference("3759170");
         payload.setAmount(1525);
@@ -81,14 +81,14 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
 
         PaytrailPaymentCreateRequest.CreatePaymentPayload payload = new PaytrailPaymentCreateRequest.CreatePaymentPayload();
 
-        payload.setStamp("16502c48-8126-4dd1-9bd5-0666328de982");
+        payload.setStamp("16502c48-8126-4dd1-9bd5-0666328de984");
         payload.setReference("3759170");
         payload.setAmount(1525);
         payload.setCurrency("EUR");
         payload.setLanguage("FI");
         PaymentItem paymentItem = new PaymentItem();
 
-        paymentItem.setStamp("67641606-1c74-4994-bd6c-ee40436d398f");
+        paymentItem.setStamp("67641606-1c74-4994-bd6c-ee40436d398h");
         paymentItem.setReference("fur-suits-5");
         paymentItem.setUnitPrice(1525);
         paymentItem.setUnits(1);

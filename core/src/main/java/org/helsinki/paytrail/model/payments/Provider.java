@@ -7,12 +7,11 @@ import java.util.List;
 
 @Data
 public class Provider {
-
-    public String url;
-    public String icon;
-    public String svg;
-    public PaymentMethodGroup group;
-    public String name;
-    public String id;
-    public List<FormField> parameters;
+    private String url;
+    private String icon;
+    private String svg;
+    private PaymentMethodGroup group;
+    private String name;
+    private String id;
+    private List<FormField> parameters;
 }

@@ -11,12 +11,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 @Data
 @Accessors(chain = true)
 public class PaytrailPaymentResponse implements Serializable {
-    public String transactionId;
-    public String href;
-    public String terms;
-    public List<PaymentMethodGroupData> groups;
-    public List<Provider> providers;
-    public String reference;
-    public JsonNode customProviders;
+    private String transactionId;
+    private String href;
+    private String terms;
+    private List<PaymentMethodGroupData> groups;
+    private List<Provider> providers;
+    private String reference;
+    private JsonNode customProviders;
 
 }

@@ -42,14 +42,14 @@ public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailPa
     @Data
     @Accessors(chain = true)
     public static class CreatePaymentPayload extends PaytrailPayload<CreatePaymentPayload> {
-        public String stamp;
-        public String reference;
-        public int amount;
-        public String currency;
-        public String language;
-        public ArrayList<PaymentItem> items;
-        public PaymentCustomer customer;
-        public PaymentCallbackUrls redirectUrls;
-        public PaymentCallbackUrls callbackUrls;
+        private String stamp;
+        private String reference;
+        private int amount;
+        private String currency;
+        private String language;
+        private ArrayList<PaymentItem> items;
+        private PaymentCustomer customer;
+        private PaymentCallbackUrls redirectUrls;
+        private PaymentCallbackUrls callbackUrls;
     }
 }

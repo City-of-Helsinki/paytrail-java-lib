@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PaymentCallbackUrls {
-    public String success;
-    public String cancel;
+    private String success;
+    private String cancel;
 }

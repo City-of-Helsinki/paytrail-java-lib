@@ -9,7 +9,6 @@ import org.helsinki.paytrail.response.PaytrailResponse;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class PaytrailPaymentCreateResponse extends PaytrailResponse {
-
 	private PaytrailPaymentResponse paymentResponse;
 	private String[] errors;
 }
