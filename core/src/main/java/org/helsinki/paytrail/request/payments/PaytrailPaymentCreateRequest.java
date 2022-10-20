@@ -13,11 +13,12 @@ import org.helsinki.paytrail.request.common.PaytrailPostRequest;
 import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
 import org.helsinki.paytrail.response.PaytrailResponse;
 import org.helsinki.paytrail.response.paymentmethods.PaytrailPaymentMethodsResponse;
+import org.helsinki.paytrail.response.payments.PaytrailPaymentCreateResponse;
 
 import java.util.ArrayList;
 
 @RequiredArgsConstructor
-public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailResponse, PaytrailPaymentCreateRequest.CreatePaymentPayload> {
+public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailPaymentCreateResponse, PaytrailPaymentCreateRequest.CreatePaymentPayload> {
 
     @NonNull
     private final PaytrailPaymentCreateRequest.CreatePaymentPayload payload;
@@ -33,8 +34,8 @@ public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailRe
     }
 
     @Override
-    public Class<PaytrailResponse> getResponseType() {
-        return PaytrailResponse.class;
+    public Class<PaytrailPaymentCreateResponse> getResponseType() {
+        return PaytrailPaymentCreateResponse.class;
     }
 
     @EqualsAndHashCode(callSuper = true)

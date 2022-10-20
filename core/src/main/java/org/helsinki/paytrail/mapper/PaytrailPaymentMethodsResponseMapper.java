@@ -3,16 +3,10 @@ package org.helsinki.paytrail.mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.helsinki.paytrail.model.paymentmethods.PaytrailPaymentMethod;
 import org.helsinki.paytrail.response.PaytrailResponse;
 import org.helsinki.paytrail.response.paymentmethods.PaytrailPaymentMethodsResponse;
 
-import java.lang.reflect.Array;
-import java.util.List;
 
-/**
- * > This class is a Spring component that maps a PaymentMethodModel object to a PaymentMethodDTO object and back
- */
 public class PaytrailPaymentMethodsResponseMapper extends AbstractModelMapper<PaytrailResponse, PaytrailPaymentMethodsResponse> {
 
     public PaytrailPaymentMethodsResponseMapper(ObjectMapper mapper) {
