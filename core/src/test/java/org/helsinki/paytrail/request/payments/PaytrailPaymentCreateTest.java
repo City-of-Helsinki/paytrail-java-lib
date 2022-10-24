@@ -9,10 +9,13 @@ import org.helsinki.paytrail.mapper.PaytrailPaymentCreateResponseMapper;
 import org.helsinki.paytrail.model.payments.PaymentCallbackUrls;
 import org.helsinki.paytrail.model.payments.PaymentCustomer;
 import org.helsinki.paytrail.model.payments.PaymentItem;
+import org.helsinki.paytrail.model.payments.PaytrailPaymentTransaction;
 import org.helsinki.paytrail.response.payments.PaytrailPaymentCreateResponse;
+import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -31,14 +34,13 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
 
         PaytrailPaymentCreateRequest.CreatePaymentPayload payload = new PaytrailPaymentCreateRequest.CreatePaymentPayload();
 
-        payload.setStamp("d2568f2a-e4c6-40ba-a7cd-d573382ce549");
-
+        payload.setStamp(UUID.randomUUID().toString());
         payload.setReference("3759170");
         payload.setAmount(1525);
         payload.setCurrency("EUR");
         payload.setLanguage("FI");
-        PaymentItem paymentItem = new PaymentItem();
 
+        PaymentItem paymentItem = new PaymentItem();
         paymentItem.setUnitPrice(1525);
         paymentItem.setUnits(1);
         paymentItem.setVatPercentage(24);
@@ -69,6 +71,11 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
             String json = gson.toJson(response.get());
             System.out.println(json);
             System.out.println(paymentCreateResponse.toString());
+
+            PaytrailPaymentTransaction transaction = paymentCreateResponse.getPaymentTransaction();
+            assertEquals(4, transaction.getGroups().size());
+            assertEquals(17, transaction.getProviders().size());
+            assertEquals("https://pay.paytrail.com/pay/" + transaction.getTransactionId(), transaction.getHref());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -81,14 +88,14 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
 
         PaytrailPaymentCreateRequest.CreatePaymentPayload payload = new PaytrailPaymentCreateRequest.CreatePaymentPayload();
 
-        payload.setStamp("16502c48-8126-4dd1-9bd5-0666328de984");
+        payload.setStamp(UUID.randomUUID().toString());
         payload.setReference("3759170");
         payload.setAmount(1525);
         payload.setCurrency("EUR");
         payload.setLanguage("FI");
         PaymentItem paymentItem = new PaymentItem();
 
-        paymentItem.setStamp("67641606-1c74-4994-bd6c-ee40436d398h");
+        paymentItem.setStamp(UUID.randomUUID().toString());
         paymentItem.setReference("fur-suits-5");
         paymentItem.setUnitPrice(1525);
         paymentItem.setUnits(1);
@@ -121,6 +128,11 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
             String json = gson.toJson(response.get());
             System.out.println(json);
             System.out.println(paymentCreateResponse.toString());
+
+            PaytrailPaymentTransaction transaction = paymentCreateResponse.getPaymentTransaction();
+            assertEquals(4, transaction.getGroups().size());
+            assertEquals(17, transaction.getProviders().size());
+            assertEquals("https://pay.paytrail.com/pay/" + transaction.getTransactionId(), transaction.getHref());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

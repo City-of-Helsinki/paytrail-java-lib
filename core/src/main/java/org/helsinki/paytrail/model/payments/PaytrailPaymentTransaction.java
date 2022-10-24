@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 @Data
 @Accessors(chain = true)
-public class PaytrailPaymentResponse implements Serializable {
+public class PaytrailPaymentTransaction implements Serializable {
     private String transactionId;
     private String href;
     private String terms;
