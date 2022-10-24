@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class PaymentCustomer {
-    public String email;
-    public String firstName;
-    public String lastName;
-    public String phone;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String phone;
 }

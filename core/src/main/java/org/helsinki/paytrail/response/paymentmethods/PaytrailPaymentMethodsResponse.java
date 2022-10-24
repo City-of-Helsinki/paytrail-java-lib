@@ -1,6 +1,5 @@
 package org.helsinki.paytrail.response.paymentmethods;
 
-import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.helsinki.paytrail.model.paymentmethods.PaytrailPaymentMethod;
@@ -13,6 +12,5 @@ import java.util.List;
 public class PaytrailPaymentMethodsResponse extends PaytrailResponse {
 
 	private List<PaytrailPaymentMethod> paymentMethods;
-
 	private String[] errors;
 }

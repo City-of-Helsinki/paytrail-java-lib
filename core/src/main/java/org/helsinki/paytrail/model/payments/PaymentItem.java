@@ -4,14 +4,13 @@ import lombok.Data;
 
 @Data
 public class PaymentItem {
-
-    public String stamp;
-    public String reference;
-    public String merchant;
-    public int unitPrice;
-    public int units;
-    public int vatPercentage;
-    public String productCode;
-    public String description;
-    public String orderId;
+    private String stamp;
+    private String reference;
+    private String merchant;
+    private int unitPrice;
+    private int units;
+    private int vatPercentage;
+    private String productCode;
+    private String description;
+    private String orderId;
 }
