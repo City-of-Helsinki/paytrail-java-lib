@@ -18,7 +18,7 @@ public class PaytrailPaymentCreateResponseMapper extends AbstractModelMapper<Pay
     public PaytrailPaymentCreateResponse to(PaytrailResponse paytrailResponse) {
         PaytrailPaymentCreateResponse to = super.to(paytrailResponse);
         try {
-            to.setPaymentTransaction(mapper.readValue(paytrailResponse.getResultJson(), new TypeReference<>() {
+            to.setPaymentResponse(mapper.readValue(paytrailResponse.getResultJson(), new TypeReference<>() {
             }));
         } catch (JsonProcessingException e) {
             String[] errors = new String[]{

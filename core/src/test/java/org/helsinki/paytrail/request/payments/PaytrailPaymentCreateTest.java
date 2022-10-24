@@ -9,7 +9,7 @@ import org.helsinki.paytrail.mapper.PaytrailPaymentCreateResponseMapper;
 import org.helsinki.paytrail.model.payments.PaymentCallbackUrls;
 import org.helsinki.paytrail.model.payments.PaymentCustomer;
 import org.helsinki.paytrail.model.payments.PaymentItem;
-import org.helsinki.paytrail.model.payments.PaytrailPaymentTransaction;
+import org.helsinki.paytrail.model.payments.PaytrailPaymentResponse;
 import org.helsinki.paytrail.response.payments.PaytrailPaymentCreateResponse;
 import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -72,10 +72,10 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
             System.out.println(json);
             System.out.println(paymentCreateResponse.toString());
 
-            PaytrailPaymentTransaction transaction = paymentCreateResponse.getPaymentTransaction();
-            assertEquals(4, transaction.getGroups().size());
-            assertEquals(17, transaction.getProviders().size());
-            assertEquals("https://pay.paytrail.com/pay/" + transaction.getTransactionId(), transaction.getHref());
+            PaytrailPaymentResponse paymentResponseDto = paymentCreateResponse.getPaymentResponse();
+            assertEquals(4, paymentResponseDto.getGroups().size());
+            assertEquals(17, paymentResponseDto.getProviders().size());
+            assertEquals("https://pay.paytrail.com/pay/" + paymentResponseDto.getTransactionId(), paymentResponseDto.getHref());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -129,10 +129,10 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
             System.out.println(json);
             System.out.println(paymentCreateResponse.toString());
 
-            PaytrailPaymentTransaction transaction = paymentCreateResponse.getPaymentTransaction();
-            assertEquals(4, transaction.getGroups().size());
-            assertEquals(17, transaction.getProviders().size());
-            assertEquals("https://pay.paytrail.com/pay/" + transaction.getTransactionId(), transaction.getHref());
+            PaytrailPaymentResponse paymentResponseDto = paymentCreateResponse.getPaymentResponse();
+            assertEquals(4, paymentResponseDto.getGroups().size());
+            assertEquals(17, paymentResponseDto.getProviders().size());
+            assertEquals("https://pay.paytrail.com/pay/" + paymentResponseDto.getTransactionId(), paymentResponseDto.getHref());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
