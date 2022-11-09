@@ -1,11 +1,8 @@
 package org.helsinki.paytrail;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
 import org.helsinki.paytrail.service.PaytrailSignatureService;
-import org.helsinki.paytrail.util.DateTimeUtil;
 import org.helsinki.paytrail.util.Pair;
 import lombok.Data;
 import lombok.NonNull;
