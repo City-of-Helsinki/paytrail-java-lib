@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.function.Supplier;
 
-public class AbstractModelMapper<Request, Response> {
+public abstract class AbstractModelMapper<Request, Response> {
 
     protected final ObjectMapper mapper;
     private final Request genericModelTypeObject;

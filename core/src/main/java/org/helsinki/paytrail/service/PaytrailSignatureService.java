@@ -8,6 +8,8 @@ import org.helsinki.paytrail.util.RequestUtil;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.TreeMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PaytrailSignatureService {
 
@@ -60,5 +62,12 @@ public class PaytrailSignatureService {
                 }
             }
         });
+    }
+
+    public static TreeMap<String, String> filterCheckoutQueryParametersMap(Map<String, String> paramsMap) {
+        TreeMap<String, String> checkoutParamasTreeMap = paramsMap.entrySet().stream()
+                .filter(entry -> entry.getKey().contains("checkout-"))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> newValue, TreeMap::new));
+        return checkoutParamasTreeMap;
     }
 }
