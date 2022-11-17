@@ -26,6 +26,10 @@ public abstract class PaytrailRequest<T extends PaytrailResponse> {
 	// Used to store the transaction id of the payment.
 	private String checkoutTransactionId;
 
+	protected void setCheckoutTransactionId(String checkoutTransactionId) {
+		this.checkoutTransactionId = checkoutTransactionId;
+	}
+
 	public abstract String path();
 
 	public abstract Request formRequest(PaytrailClient client);

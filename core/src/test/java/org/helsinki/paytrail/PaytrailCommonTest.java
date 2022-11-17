@@ -7,6 +7,6 @@ public class PaytrailCommonTest {
 
     /* Shop-in-shop test merchant account */
     protected final String aggregateMerchantId = "695861";
-    protected final String shopInShopSecretKey = "MONISAIPPUAKAUPPIAS";
+    protected final String aggregateSecretKey = "MONISAIPPUAKAUPPIAS";
     protected final String shopInShopMerchantId = "695874";
 }

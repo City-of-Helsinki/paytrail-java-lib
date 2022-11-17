@@ -84,7 +84,7 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
 
     @Test
     public void createTestShopInShopPayment() throws ExecutionException, InterruptedException {
-        PaytrailClient client = new PaytrailClient(aggregateMerchantId, shopInShopSecretKey);
+        PaytrailClient client = new PaytrailClient(aggregateMerchantId, aggregateSecretKey);
 
         PaytrailPaymentCreateRequest.CreatePaymentPayload payload = new PaytrailPaymentCreateRequest.CreatePaymentPayload();
 
