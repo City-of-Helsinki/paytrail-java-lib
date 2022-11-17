@@ -1,22 +1,22 @@
 package org.helsinki.paytrail;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
-import org.helsinki.paytrail.service.PaytrailSignatureService;
-import org.helsinki.paytrail.util.Pair;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.helsinki.paytrail.exception.PaytrailResponseException;
+import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
 import org.helsinki.paytrail.request.common.PaytrailRequest;
 import org.helsinki.paytrail.response.PaytrailResponse;
+import org.helsinki.paytrail.service.PaytrailSignatureService;
+import org.helsinki.paytrail.util.Pair;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +26,7 @@ public class PaytrailClient implements Serializable {
 
 
     public final static String API_URL = "https://services.paytrail.com";
+    public final static String PAYMENT_UI_URL = "https://pay.paytrail.com";
 
     public final static String CHECKOUT_ALGORITHM = "sha256";
     public final static long DEFAULT_TIMEOUT_SECONDS = 60;
@@ -104,15 +105,21 @@ public class PaytrailClient implements Serializable {
             bodyWriteAsString = bodyWriteAsString.substring(1);
             bodyWriteAsString = bodyWriteAsString.substring(0, bodyWriteAsString.length() - 1);
             bodyWriteAsString = bodyWriteAsString.replace("\\\"","\"");
-            Files.writeString(Path.of("debug/"+ call.request().url().encodedPath().replace("/","-").substring(1) + "-body.json"), bodyWriteAsString);
+            String nameOfResponseBody = call.request().url().encodedPath().replace("/", "-").substring(1) + "-body.json";
+            log.info("{} : {}", nameOfResponseBody, bodyWriteAsString);
+
         }
     }
     private void debugResponseAndHeaders(Call call, Response response) throws IOException {
         if (Boolean.parseBoolean(System.getenv("DEBUG_CLIENT"))) {
             ObjectMapper mapper = new ObjectMapper();
             String fileName = call.request().url().encodedPath().replace("/", "-").substring(1);
-            Files.writeString(Path.of("debug/"+ fileName + "-response.json"), mapper.writeValueAsString(response));
-            Files.writeString(Path.of("debug/"+ fileName + "-request-headers.json"), mapper.writeValueAsString(call.request().headers().toMultimap()));
+
+            String responseLogName = fileName + "-response.json";
+            log.info("{} : {}", responseLogName, mapper.writeValueAsString(response));
+
+            String requestHeadersName = "debug/" + fileName + "-request-headers.json";
+            log.info("{} : {}", requestHeadersName, mapper.writeValueAsString(call.request().headers().toMultimap()));
         }
     }
 
