@@ -50,7 +50,7 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
         payload.setItems(items1);
 
         PaymentCustomer customer = new PaymentCustomer();
-        customer.setEmail("severi.kupari@ambientia.fi");
+        customer.setEmail("test.customer@example.com");
         payload.setCustomer(customer);
 
         PaymentCallbackUrls callbackUrls = new PaymentCallbackUrls();
@@ -107,7 +107,7 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
         payload.setItems(items1);
 
         PaymentCustomer customer = new PaymentCustomer();
-        customer.setEmail("martin.lehtomaa@ambientia.fi");
+        customer.setEmail("test.customer@example.com");
         payload.setCustomer(customer);
 
         PaymentCallbackUrls callbackUrls = new PaymentCallbackUrls();

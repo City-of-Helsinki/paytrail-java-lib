@@ -60,7 +60,7 @@ class PaytrailRefundCreateTest extends PaytrailCommonTest {
         payload.setRefundStamp(refundStamp);
         payload.setRefundReference(refundReference);
         payload.setAmount(10);
-        payload.setEmail("martin.lehtomaa@ambientia.fi");
+        payload.setEmail("test.customer@example.com");
 
         PaymentCallbackUrls callbackUrls = new PaymentCallbackUrls();
 
@@ -93,7 +93,7 @@ class PaytrailRefundCreateTest extends PaytrailCommonTest {
         payload.setRefundStamp(refundStamp);
         payload.setRefundReference(refundReference);
         payload.setAmount(10);
-        payload.setEmail("martin.lehtomaa@ambientia.fi");
+        payload.setEmail("test.customer@example.com");
 
         RefundItem refundItem = new RefundItem();
         refundItem.setStamp(UUID.randomUUID().toString());
