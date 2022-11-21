@@ -3,6 +3,8 @@ package org.helsinki.paytrail.request.common;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import lombok.AccessLevel;
+import lombok.Setter;
 import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
 import org.helsinki.paytrail.util.DateTimeUtil;
 import org.helsinki.paytrail.util.Pair;
@@ -24,6 +26,7 @@ public abstract class PaytrailRequest<T extends PaytrailResponse> {
 	protected Gson gson;
 
 	// Used to store the transaction id of the payment.
+	@Setter(AccessLevel.PROTECTED)
 	private String checkoutTransactionId;
 
 	public abstract String path();

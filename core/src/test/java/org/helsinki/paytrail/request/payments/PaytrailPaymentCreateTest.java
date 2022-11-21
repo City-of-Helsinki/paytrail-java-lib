@@ -50,7 +50,7 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
         payload.setItems(items1);
 
         PaymentCustomer customer = new PaymentCustomer();
-        customer.setEmail("severi.kupari@ambientia.fi");
+        customer.setEmail("test.customer@example.com");
         payload.setCustomer(customer);
 
         PaymentCallbackUrls callbackUrls = new PaymentCallbackUrls();
@@ -84,7 +84,7 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
 
     @Test
     public void createTestShopInShopPayment() throws ExecutionException, InterruptedException {
-        PaytrailClient client = new PaytrailClient(aggregateMerchantId, shopInShopSecretKey);
+        PaytrailClient client = new PaytrailClient(aggregateMerchantId, aggregateSecretKey);
 
         PaytrailPaymentCreateRequest.CreatePaymentPayload payload = new PaytrailPaymentCreateRequest.CreatePaymentPayload();
 
@@ -107,7 +107,7 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
         payload.setItems(items1);
 
         PaymentCustomer customer = new PaymentCustomer();
-        customer.setEmail("martin.lehtomaa@ambientia.fi");
+        customer.setEmail("test.customer@example.com");
         payload.setCustomer(customer);
 
         PaymentCallbackUrls callbackUrls = new PaymentCallbackUrls();
