@@ -68,6 +68,8 @@ public class PaytrailClient implements Serializable {
 
             @Override
             public void onFailure(Call call, IOException e) {
+                log.info("onFailure response for {}", call.request());
+
                 responseFuture.completeExceptionally(e);
             }
 
