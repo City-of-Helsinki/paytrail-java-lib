@@ -5,7 +5,6 @@ import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import org.helsinki.paytrail.PaytrailClient;
 import org.helsinki.paytrail.PaytrailCommonTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
