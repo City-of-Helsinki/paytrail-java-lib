@@ -1,38 +1,28 @@
 package org.helsinki.paytrail.request.refunds;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.helsinki.paytrail.PaytrailClient;
 import org.helsinki.paytrail.PaytrailCommonTest;
-import org.helsinki.paytrail.constants.PaymentStatus;
 import org.helsinki.paytrail.mapper.PaytrailPaymentCreateResponseMapper;
 import org.helsinki.paytrail.mapper.PaytrailRefundCreateResponseMapper;
 import org.helsinki.paytrail.model.payments.PaymentCallbackUrls;
 import org.helsinki.paytrail.model.payments.PaymentCustomer;
 import org.helsinki.paytrail.model.payments.PaymentItem;
 import org.helsinki.paytrail.model.payments.PaytrailPaymentResponse;
-import org.helsinki.paytrail.model.refunds.PaytrailRefundResponse;
 import org.helsinki.paytrail.model.refunds.RefundItem;
 import org.helsinki.paytrail.request.payments.PaytrailPaymentCreateRequest;
 import org.helsinki.paytrail.response.payments.PaytrailPaymentCreateResponse;
 import org.helsinki.paytrail.response.refunds.PaytrailRefundCreateResponse;
-import org.helsinki.paytrail.service.PaytrailSignatureService;
 import org.junit.jupiter.api.Test;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 class PaytrailRefundCreateTest extends PaytrailCommonTest {
@@ -71,10 +61,9 @@ class PaytrailRefundCreateTest extends PaytrailCommonTest {
         PaytrailRefundCreateRequest request = new PaytrailRefundCreateRequest(paymentResponse.getTransactionId(), payload);
         CompletableFuture<PaytrailRefundCreateResponse> response = client.sendRequest(request);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> refundMapper.to(response.get()));
-        String expectedMessage = "argument \"content\" is null";
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
+        PaytrailRefundCreateResponse refundCreateResponse = response.get();
+        assertEquals(refundCreateResponse.getResultJson(),"{\"status\":\"error\",\"message\":\"Transaction not paid\"}");
+
     }
 
     @Test
@@ -113,10 +102,8 @@ class PaytrailRefundCreateTest extends PaytrailCommonTest {
         PaytrailRefundCreateRequest request = new PaytrailRefundCreateRequest(paymentResponse.getTransactionId(), payload);
         CompletableFuture<PaytrailRefundCreateResponse> response = client.sendRequest(request);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> refundMapper.to(response.get()));
-        String expectedMessage = "argument \"content\" is null";
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
+        PaytrailRefundCreateResponse refundCreateResponse = response.get();
+        assertEquals(refundCreateResponse.getResultJson(),"{\"status\":\"error\",\"message\":\"Transaction not paid\"}");
     }
 
     private PaytrailPaymentResponse createTestNormalMerchantPayment(PaytrailClient client) throws ExecutionException, InterruptedException {

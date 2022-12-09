@@ -31,8 +31,20 @@ public class PaytrailResponseException extends IOException {
 		}
 
 		public static <T> T of(Throwable throwable, Class<T> clazz) {
+			Gson gson = new Gson();
+			if (throwable.getCause() instanceof PaytrailResponseException && throwable.getCause() != null) {
+				PaytrailResponseException exception = (PaytrailResponseException) throwable.getCause();
+				PaytrailResponse paytrailResponse = exception.getResponse();
+
+				// Set valid to false if exception is caused from paytrail request
+				paytrailResponse.setValid(false);
+				return new Gson().fromJson(gson.toJson(paytrailResponse), clazz);
+			}
 			// TODO: there has to be a better way to do this
-			return new Gson().fromJson("{}", clazz);
+			PaytrailResponse paytrailResponse = new PaytrailResponse();
+			// Set valid to false if exception is caused from paytrail request
+			paytrailResponse.setValid(false);
+			return new Gson().fromJson(gson.toJson(paytrailResponse), clazz);
 		}
 	}
 }

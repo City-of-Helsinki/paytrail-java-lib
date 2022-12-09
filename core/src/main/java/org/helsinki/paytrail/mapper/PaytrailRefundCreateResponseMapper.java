@@ -20,13 +20,15 @@ public class PaytrailRefundCreateResponseMapper extends AbstractModelMapper<Payt
         try {
             to.setRefundResponse(mapper.readValue(paytrailResponse.getResultJson(), new TypeReference<>() {
             }));
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             String[] errors = new String[]{
                     e.getMessage(),
-                    e.getOriginalMessage(),
+                    e instanceof JsonProcessingException ? ((JsonProcessingException) e).getOriginalMessage() : "",
                     paytrailResponse.getResultJson()
             };
             to.setErrors(errors);
+            to.setResultJson(paytrailResponse.getResultJson());
+            to.setErrorStatus(paytrailResponse.getErrorStatus());
             log.debug(e.getMessage());
         }
         return to;

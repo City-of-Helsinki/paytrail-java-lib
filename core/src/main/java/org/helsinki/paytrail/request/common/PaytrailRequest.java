@@ -58,7 +58,13 @@ public abstract class PaytrailRequest<T extends PaytrailResponse> {
 		}
 
 		if (!response.getKey().isSuccessful()) {
-			throw new PaytrailResponseException(paytrailResponse, "Response from Paytrail API wasn't a success response");
+			// If data cant be parsed here, add it to resultJson field for further process.
+			T responseWithJson = null;
+			if (responseValue != null) {
+				responseWithJson = getResponseType().getDeclaredConstructor().newInstance();
+				responseWithJson.setResultJson(responseValue);
+			}
+			throw new PaytrailResponseException(responseWithJson, "Response from Paytrail API wasn't a success response");
 		}
 
 		// If data cant be parsed here, add it to resultJson field for further process.
