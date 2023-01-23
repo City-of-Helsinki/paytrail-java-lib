@@ -11,9 +11,9 @@ import org.helsinki.paytrail.response.PaytrailResponse;
 import java.util.Map;
 
 @Slf4j
-public abstract class PaytrailGetRequest<T extends PaytrailResponse, B extends PaytrailPayload<?>> extends PaytrailRequest<T> {
+public abstract class PaytrailGetRequest<T extends PaytrailResponse> extends PaytrailRequest<T> {
 
-	protected abstract B getPayload(PaytrailClient client);
+	protected abstract PaytrailPayload<?> getPayload(PaytrailClient client);
 
 	protected Map<String,String> getParameters;
 

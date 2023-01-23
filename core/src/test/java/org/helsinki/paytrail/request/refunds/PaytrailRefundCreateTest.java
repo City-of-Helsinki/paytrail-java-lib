@@ -62,6 +62,7 @@ class PaytrailRefundCreateTest extends PaytrailCommonTest {
         CompletableFuture<PaytrailRefundCreateResponse> response = client.sendRequest(request);
 
         PaytrailRefundCreateResponse refundCreateResponse = response.get();
+        PaytrailRefundCreateResponse refundResponse = refundMapper.to(refundCreateResponse);
         assertEquals(refundCreateResponse.getResultJson(),"{\"status\":\"error\",\"message\":\"Transaction not paid\"}");
 
     }
@@ -103,6 +104,7 @@ class PaytrailRefundCreateTest extends PaytrailCommonTest {
         CompletableFuture<PaytrailRefundCreateResponse> response = client.sendRequest(request);
 
         PaytrailRefundCreateResponse refundCreateResponse = response.get();
+        PaytrailRefundCreateResponse refundResponse = refundMapper.to(refundCreateResponse);
         assertEquals(refundCreateResponse.getResultJson(),"{\"status\":\"error\",\"message\":\"Transaction not paid\"}");
     }
 
@@ -125,7 +127,7 @@ class PaytrailRefundCreateTest extends PaytrailCommonTest {
         payload.setItems(items1);
 
         PaymentCustomer customer = new PaymentCustomer();
-        customer.setEmail("martin.lehtomaa@ambientia.fi");
+        customer.setEmail("test.customer@example.com");
         payload.setCustomer(customer);
 
         PaymentCallbackUrls callbackUrls = new PaymentCallbackUrls();
@@ -166,7 +168,7 @@ class PaytrailRefundCreateTest extends PaytrailCommonTest {
         payload.setItems(items1);
 
         PaymentCustomer customer = new PaymentCustomer();
-        customer.setEmail("martin.lehtomaa@ambientia.fi");
+        customer.setEmail("test.customer@example.com");
         payload.setCustomer(customer);
 
         PaymentCallbackUrls callbackUrls = new PaymentCallbackUrls();

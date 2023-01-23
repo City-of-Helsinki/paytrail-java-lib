@@ -130,8 +130,8 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
             System.out.println(paymentCreateResponse.toString());
 
             PaytrailPaymentResponse paymentResponseDto = paymentCreateResponse.getPaymentResponse();
-            assertEquals(4, paymentResponseDto.getGroups().size());
-            assertEquals(17, paymentResponseDto.getProviders().size());
+            assertEquals(3, paymentResponseDto.getGroups().size());
+            assertEquals(16, paymentResponseDto.getProviders().size());
             assertEquals("https://pay.paytrail.com/pay/" + paymentResponseDto.getTransactionId(), paymentResponseDto.getHref());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

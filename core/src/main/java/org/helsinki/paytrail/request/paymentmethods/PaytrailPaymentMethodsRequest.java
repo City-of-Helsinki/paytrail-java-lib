@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class PaytrailPaymentMethodsRequest extends PaytrailGetRequest<PaytrailPaymentMethodsResponse, PaytrailPaymentMethodsRequest.PaymentMethodsPayload> {
+public class PaytrailPaymentMethodsRequest extends PaytrailGetRequest<PaytrailPaymentMethodsResponse> {
 	@Override
 	protected void setDefaultQueryParameters() {
 		Map<String,String> params = new HashMap<>();
@@ -28,10 +28,10 @@ public class PaytrailPaymentMethodsRequest extends PaytrailGetRequest<PaytrailPa
 	}
 
 	@NonNull
-	private final PaytrailPaymentMethodsRequest.PaymentMethodsPayload payload;
+	private final PaymentMethodsPayload payload;
 
 	@Override
-	protected PaytrailPaymentMethodsRequest.PaymentMethodsPayload getPayload(PaytrailClient client) {
+	protected PaymentMethodsPayload getPayload(PaytrailClient client) {
 		return payload;
 	}
 
