@@ -17,6 +17,7 @@ import org.helsinki.paytrail.exception.PaytrailResponseException;
 import org.helsinki.paytrail.response.PaytrailResponse;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -117,6 +118,16 @@ public abstract class PaytrailRequest<T extends PaytrailResponse> {
 		if (this.checkoutTransactionId != null) {
 			request.addHeader(String.valueOf(PaytrailAuthHeaders.CHECKOUT_TRANSACTION_ID), this.checkoutTransactionId);
 		}
+		return request;
+	}
+
+	protected Request.Builder applyCustomHeaders(Request.Builder request, Map<String, String> customRequestHeaders) {
+		if (customRequestHeaders != null && !customRequestHeaders.isEmpty()) {
+			customRequestHeaders.keySet().forEach(headerKey -> {
+				request.addHeader(headerKey, customRequestHeaders.get(headerKey));
+			});
+		}
+
 		return request;
 	}
 
