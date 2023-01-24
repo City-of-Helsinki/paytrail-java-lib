@@ -11,13 +11,13 @@ import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
 import org.helsinki.paytrail.response.PaytrailResponse;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import java.util.TreeMap;
 
 @Slf4j
 public abstract class PaytrailPostRequest<T extends PaytrailResponse> extends PaytrailRequest<T> {
 
 	protected abstract PaytrailPayload<?> getPayload(PaytrailClient client);
-	protected abstract Map<String, String> getRequestSpecificHeaders();
+	protected abstract TreeMap<String, String> getRequestSpecificHeaders();
 
 	@Override
 	public Request formRequest(PaytrailClient client) {

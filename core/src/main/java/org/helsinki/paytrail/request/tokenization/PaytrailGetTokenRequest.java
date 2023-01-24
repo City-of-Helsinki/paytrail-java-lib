@@ -6,9 +6,7 @@ import org.helsinki.paytrail.request.common.PaytrailPostRequest;
 import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
 import org.helsinki.paytrail.response.tokenization.PaytrailGetTokenResponse;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.TreeMap;
 
 
 public class PaytrailGetTokenRequest extends PaytrailPostRequest<PaytrailGetTokenResponse> {
@@ -16,11 +14,12 @@ public class PaytrailGetTokenRequest extends PaytrailPostRequest<PaytrailGetToke
     private static final String TOKENIZATION_ID_HEADER = "checkout-tokenization-id";
 
     private final String checkoutTokenizationId;
-    private final Map<String, String> requestSpecificHeaders;
+    private final TreeMap<String, String> requestSpecificHeaders;
 
     public PaytrailGetTokenRequest(@NonNull String checkoutTokenizationId) {
         this.checkoutTokenizationId = checkoutTokenizationId;
-        this.requestSpecificHeaders = Collections.singletonMap(TOKENIZATION_ID_HEADER, checkoutTokenizationId);
+        this.requestSpecificHeaders = new TreeMap<>();
+        this.requestSpecificHeaders.put(TOKENIZATION_ID_HEADER, checkoutTokenizationId);
     }
 
     @Override
@@ -39,7 +38,7 @@ public class PaytrailGetTokenRequest extends PaytrailPostRequest<PaytrailGetToke
     }
 
     @Override
-    protected Map<String, String> getRequestSpecificHeaders() {
+    protected TreeMap<String, String> getRequestSpecificHeaders() {
         return requestSpecificHeaders;
     }
 }

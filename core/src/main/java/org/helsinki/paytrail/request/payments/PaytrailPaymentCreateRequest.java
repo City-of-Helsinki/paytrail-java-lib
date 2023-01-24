@@ -14,7 +14,7 @@ import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
 import org.helsinki.paytrail.response.payments.PaytrailPaymentCreateResponse;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.TreeMap;
 
 @RequiredArgsConstructor
 public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailPaymentCreateResponse> {
@@ -28,7 +28,7 @@ public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailPa
     }
 
     @Override
-    protected Map<String, String> getRequestSpecificHeaders() {
+    protected TreeMap<String, String> getRequestSpecificHeaders() {
         return null;
     }
 
