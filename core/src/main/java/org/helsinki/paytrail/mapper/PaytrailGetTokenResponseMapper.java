@@ -2,11 +2,12 @@ package org.helsinki.paytrail.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.helsinki.paytrail.model.tokenization.PaytrailTokenResponse;
 import org.helsinki.paytrail.response.PaytrailResponse;
 import org.helsinki.paytrail.response.tokenization.PaytrailGetTokenResponse;
 
-
+@Slf4j
 public class PaytrailGetTokenResponseMapper extends AbstractModelMapper<PaytrailResponse, PaytrailGetTokenResponse> {
 
     public PaytrailGetTokenResponseMapper(ObjectMapper mapper) {

@@ -13,6 +13,7 @@ import org.helsinki.paytrail.response.refunds.PaytrailRefundCreateResponse;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class PaytrailRefundCreateRequest extends PaytrailPostRequest<PaytrailRefundCreateResponse> {
 
@@ -34,7 +35,7 @@ public class PaytrailRefundCreateRequest extends PaytrailPostRequest<PaytrailRef
     }
 
     @Override
-    protected Map<String, String> getRequestSpecificHeaders() {
+    protected TreeMap<String, String> getRequestSpecificHeaders() {
         return null;
     }
 
