@@ -3,7 +3,6 @@ package org.helsinki.paytrail.request.refunds;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import org.helsinki.paytrail.PaytrailClient;
 import org.helsinki.paytrail.model.payments.PaymentCallbackUrls;
@@ -13,15 +12,17 @@ import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
 import org.helsinki.paytrail.response.refunds.PaytrailRefundCreateResponse;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class PaytrailRefundCreateRequest extends PaytrailPostRequest<PaytrailRefundCreateResponse, PaytrailRefundCreateRequest.CreateRefundPayload> {
+public class PaytrailRefundCreateRequest extends PaytrailPostRequest<PaytrailRefundCreateResponse> {
 
     private final String paymentTransactionId;
-    private final PaytrailRefundCreateRequest.CreateRefundPayload payload;
+    private final CreateRefundPayload payload;
 
     public PaytrailRefundCreateRequest(
             @NonNull String paymentTransactionId,
-            @NonNull PaytrailRefundCreateRequest.CreateRefundPayload payload
+            @NonNull CreateRefundPayload payload
     ) {
         this.setCheckoutTransactionId(paymentTransactionId);
         this.paymentTransactionId = paymentTransactionId;
@@ -31,6 +32,11 @@ public class PaytrailRefundCreateRequest extends PaytrailPostRequest<PaytrailRef
     @Override
     protected CreateRefundPayload getPayload(PaytrailClient client) {
         return payload;
+    }
+
+    @Override
+    protected TreeMap<String, String> getRequestSpecificHeaders() {
+        return null;
     }
 
     @Override

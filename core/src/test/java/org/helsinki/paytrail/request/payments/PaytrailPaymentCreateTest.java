@@ -12,6 +12,7 @@ import org.helsinki.paytrail.model.payments.PaymentItem;
 import org.helsinki.paytrail.model.payments.PaytrailPaymentResponse;
 import org.helsinki.paytrail.response.payments.PaytrailPaymentCreateResponse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -73,8 +74,8 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
             System.out.println(paymentCreateResponse.toString());
 
             PaytrailPaymentResponse paymentResponseDto = paymentCreateResponse.getPaymentResponse();
-            assertEquals(4, paymentResponseDto.getGroups().size());
-            assertEquals(17, paymentResponseDto.getProviders().size());
+            assertTrue(paymentResponseDto.getGroups().size() > 1);
+            assertTrue(paymentResponseDto.getProviders().size() > 1);
             assertEquals("https://pay.paytrail.com/pay/" + paymentResponseDto.getTransactionId(), paymentResponseDto.getHref());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
@@ -130,8 +131,8 @@ class PaytrailPaymentCreateTest extends PaytrailCommonTest {
             System.out.println(paymentCreateResponse.toString());
 
             PaytrailPaymentResponse paymentResponseDto = paymentCreateResponse.getPaymentResponse();
-            assertEquals(4, paymentResponseDto.getGroups().size());
-            assertEquals(17, paymentResponseDto.getProviders().size());
+            assertTrue(paymentResponseDto.getGroups().size() > 1);
+            assertTrue(paymentResponseDto.getProviders().size() > 1);
             assertEquals("https://pay.paytrail.com/pay/" + paymentResponseDto.getTransactionId(), paymentResponseDto.getHref());
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);

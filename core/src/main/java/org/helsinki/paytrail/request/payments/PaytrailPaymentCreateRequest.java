@@ -11,21 +11,25 @@ import org.helsinki.paytrail.model.payments.PaymentCustomer;
 import org.helsinki.paytrail.model.payments.PaymentItem;
 import org.helsinki.paytrail.request.common.PaytrailPostRequest;
 import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
-import org.helsinki.paytrail.response.PaytrailResponse;
-import org.helsinki.paytrail.response.paymentmethods.PaytrailPaymentMethodsResponse;
 import org.helsinki.paytrail.response.payments.PaytrailPaymentCreateResponse;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 @RequiredArgsConstructor
-public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailPaymentCreateResponse, PaytrailPaymentCreateRequest.CreatePaymentPayload> {
+public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailPaymentCreateResponse> {
 
     @NonNull
-    private final PaytrailPaymentCreateRequest.CreatePaymentPayload payload;
+    private final CreatePaymentPayload payload;
 
     @Override
     protected CreatePaymentPayload getPayload(PaytrailClient client) {
         return payload;
+    }
+
+    @Override
+    protected TreeMap<String, String> getRequestSpecificHeaders() {
+        return null;
     }
 
     @Override
