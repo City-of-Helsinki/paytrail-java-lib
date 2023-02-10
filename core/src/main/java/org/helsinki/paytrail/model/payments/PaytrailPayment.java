@@ -18,4 +18,12 @@ public class PaytrailPayment implements Serializable {
     public PaymentCustomer customer;
     public PaymentCallbackUrls redirectUrls;
     public PaymentCallbackUrls callbackUrls;
+
+    public String transactionId;
+    public String status;
+    public String createdAt;
+    public String href;
+    public String provider;
+    public String filingCode;
+    public String paidAt;
 }
