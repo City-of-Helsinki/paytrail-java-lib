@@ -1,5 +1,6 @@
 package org.helsinki.paytrail;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.NonNull;
@@ -69,6 +70,12 @@ public class PaytrailClient implements Serializable {
             @Override
             public void onFailure(Call call, IOException e) {
                 log.info("onFailure response for {}", call.request());
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    log.info("defaultHttpClient request : {}", mapper.writeValueAsString(call.request()));
+                } catch (JsonProcessingException ex) {
+                    log.info("defaultHttpClient request error : ", ex);
+                }
 
                 responseFuture.completeExceptionally(e);
             }
@@ -80,6 +87,8 @@ public class PaytrailClient implements Serializable {
                 try (ResponseBody body = response.body()) {
                     String bodyString = body.string();
                     debugResponseBody(call, bodyString);
+                    ObjectMapper mapper = new ObjectMapper();
+                    log.info("onResponse bodyString : {}", bodyString);
                     responseFuture.complete(new Pair<>(response, bodyString));
                 }
             }
@@ -89,13 +98,13 @@ public class PaytrailClient implements Serializable {
 
         return responseFuture.thenApply(result -> {
             log.info(
-                    "Response for {} with body : {}",
+                    "responseFuture Response for {} with body : {}",
                     result.getKey().request().url(),
                     result.getValue()
             );
             return request.parseResponse(result);
         }).exceptionally((tr) -> {
-            log.info("exception message: {}", tr.getMessage());
+            log.info("responseFuture exception message: {}", tr.getMessage());
             return PaytrailResponseException.PaytrailFailedResponse.of(tr, request.getResponseType());
         });
     }
@@ -144,7 +153,12 @@ public class PaytrailClient implements Serializable {
                     .method(original.method(), original.body())
                     .addHeader(String.valueOf(PaytrailAuthHeaders.SIGNATURE), calculatedSignature)
                     .build();
+
             debugRequest(request);
+            ObjectMapper mapper = new ObjectMapper();
+            log.info("defaultHttpClient request : {}", mapper.writeValueAsString(request));
+            log.info("defaultHttpClient checkoutSignatureParameters : {}", mapper.writeValueAsString(checkoutSignatureParameters));
+            log.info("defaultHttpClient calculatedSignature : {}", mapper.writeValueAsString(calculatedSignature));
             return chain.proceed(request);
         });
 

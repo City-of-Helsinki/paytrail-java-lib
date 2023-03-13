@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.helsinki.paytrail.response.PaytrailResponse;
 
 import java.io.IOException;
 
 @Getter
+@Slf4j
 public class PaytrailResponseException extends IOException {
 	@NonNull
 	private final PaytrailResponse response;
@@ -38,13 +40,18 @@ public class PaytrailResponseException extends IOException {
 
 				// Set valid to false if exception is caused from paytrail request
 				paytrailResponse.setValid(false);
-				return new Gson().fromJson(gson.toJson(paytrailResponse), clazz);
+				String json = gson.toJson(paytrailResponse);
+
+				log.info("PaytrailFailedResponse response : {}", json);
+				return new Gson().fromJson(json, clazz);
 			}
 			// TODO: there has to be a better way to do this
 			PaytrailResponse paytrailResponse = new PaytrailResponse();
 			// Set valid to false if exception is caused from paytrail request
 			paytrailResponse.setValid(false);
-			return new Gson().fromJson(gson.toJson(paytrailResponse), clazz);
+			String json = gson.toJson(paytrailResponse);
+			log.info("PaytrailFailedResponse2 response : {}", json);
+			return new Gson().fromJson(json, clazz);
 		}
 	}
 }
