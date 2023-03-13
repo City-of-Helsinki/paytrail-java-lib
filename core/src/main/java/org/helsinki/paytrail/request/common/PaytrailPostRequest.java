@@ -1,5 +1,7 @@
 package org.helsinki.paytrail.request.common;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
@@ -35,9 +37,14 @@ public abstract class PaytrailPostRequest<T extends PaytrailResponse> extends Pa
 		if (getPayload(client) == null) {
 			return RequestBody.create(null, "");
 		}
-
+		ObjectMapper objectMapper = new ObjectMapper();
 		Gson gson = getGson(true);
-		String payload = gson.toJson(getPayload(client));
+		String payload = "";
+		try {
+			payload = objectMapper.writeValueAsString(getPayload(client));
+		} catch (JsonProcessingException e) {
+			log.info("PaytrailPostRequest JsonProcessingException: {}", e.getMessage());
+		}
 
 		log.debug("Payload : {}", payload);
 
