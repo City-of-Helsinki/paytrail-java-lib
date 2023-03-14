@@ -1,6 +1,8 @@
 package org.helsinki.paytrail.request.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +39,10 @@ public abstract class PaytrailPostRequest<T extends PaytrailResponse> extends Pa
 		if (getPayload(client) == null) {
 			return RequestBody.create(null, "");
 		}
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper()
+				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		Gson gson = getGson(true);
 		String payload = "";
 		try {

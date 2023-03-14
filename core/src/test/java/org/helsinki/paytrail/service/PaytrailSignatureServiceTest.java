@@ -1,11 +1,15 @@
 package org.helsinki.paytrail.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.helsinki.paytrail.PaytrailCommonTest;
+import org.helsinki.paytrail.request.payments.PaytrailPaymentCreateRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.TreeMap;
 
+@Slf4j
 class PaytrailSignatureServiceTest extends PaytrailCommonTest {
 
 
@@ -129,4 +134,30 @@ class PaytrailSignatureServiceTest extends PaytrailCommonTest {
         Assertions.assertEquals(filteredQueryParameters.size(), 5);
         Assertions.assertEquals(queryParams.size(), 6);
     }
+
+
+    @Test
+    void calculateSignatureWithBodyRealCase() throws NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
+        TreeMap<String, String> headers = new TreeMap<>();
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        headers.put("checkout-account", "1071053");
+        headers.put("checkout-algorithm", "sha256");
+        headers.put("checkout-method", "POST");
+        headers.put("checkout-nonce", "88e166e2-2ee5-4617-a209-8ba1855d91ce");
+        headers.put("checkout-timestamp", "2023-03-14T07:44:03.305611");
+
+        PaytrailPaymentCreateRequest.CreatePaymentPayload object = objectMapper.readValue("{\"version\":null,\"stamp\":\"760ab91a-8dfe-3fde-8e10-7587ee2a40f7_at_20230314-074402\",\"reference\":\"760ab91a-8dfe-3fde-8e10-7587ee2a40f7\",\"amount\":12400,\"currency\":\"EUR\",\"language\":\"FI\",\"items\":[{\"stamp\":null,\"reference\":\"8d940cc9-4fb2-4846-a718-59a8c5ea7e60\",\"merchant\":null,\"unitPrice\":12400,\"units\":1,\"vatPercentage\":24,\"productCode\":\"b56382ff-02b2-32f1-848f-981f12faf8cd\",\"description\":\"J?rjest?tila\",\"orderId\":null}],\"customer\":{\"email\":\"severi.kupari@ambientia.fi\",\"firstName\":\"Severi\",\"lastName\":\"Kupari\",\"phone\":null},\"redirectUrls\":{\"success\":\"https://checkout-test-api.test.hel.ninja/v1/payment/paytrailOnlinePayment/return/success\",\"cancel\":\"https://checkout-test-api.test.hel.ninja/v1/payment/paytrailOnlinePayment/return/cancel\"},\"callbackUrls\":{\"success\":\"https://checkout-test-api.test.hel.ninja/v1/payment/paytrailOnlinePayment/notify/success\",\"cancel\":\"https://checkout-test-api.test.hel.ninja/v1/payment/paytrailOnlinePayment/notify/cancel\"}}",PaytrailPaymentCreateRequest.CreatePaymentPayload.class);
+
+        log.info(objectMapper.writeValueAsString(object));
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=" + StandardCharsets.UTF_8), objectMapper.writeValueAsString(object));
+        Assertions.assertEquals(
+                "938149a93c7cd63394234fb6d9e24eeb4f26ecfda21d8d289df02207b894198f",
+                PaytrailSignatureService.calculateSignature(headers, requestBody, "226a735c07fc99bb463fc1a77d0fb7fb01a006449262ffa579841bc2539dc3ba094a183936467965")
+        );
+    }
+
 }
