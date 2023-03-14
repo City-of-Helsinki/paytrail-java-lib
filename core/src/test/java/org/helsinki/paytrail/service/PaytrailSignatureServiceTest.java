@@ -1,5 +1,7 @@
 package org.helsinki.paytrail.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
@@ -7,6 +9,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.helsinki.paytrail.PaytrailCommonTest;
+import org.helsinki.paytrail.mapper.ConfiguredObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +40,7 @@ class PaytrailSignatureServiceTest extends PaytrailCommonTest {
     }
 
     @Test
-    void calculateSignatureWithBody() throws NoSuchAlgorithmException, InvalidKeyException {
+    void calculateSignatureWithBody() throws NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         TreeMap<String, String> headers = new TreeMap<>();
 
         headers.put("checkout-account", merchantId);
@@ -77,11 +80,14 @@ class PaytrailSignatureServiceTest extends PaytrailCommonTest {
         object.put("customer", customerEmail);
         object.put("redirectUrls", redirectUrls);
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=" + StandardCharsets.UTF_8), gson.toJson(object));
+        ObjectMapper objectMapper = ConfiguredObjectMapper.getMapper();
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=" + StandardCharsets.UTF_8), objectMapper.writeValueAsString(object));
         Assertions.assertEquals(
                 "3708f6497ae7cc55a2e6009fc90aa10c3ad0ef125260ee91b19168750f6d74f6",
                 PaytrailSignatureService.calculateSignature(headers, requestBody, secretKey)
         );
+
     }
 
     @Test
@@ -130,6 +136,54 @@ class PaytrailSignatureServiceTest extends PaytrailCommonTest {
         Assertions.assertNotNull(filteredQueryParameters);
         Assertions.assertEquals(filteredQueryParameters.size(), 5);
         Assertions.assertEquals(queryParams.size(), 6);
+    }
+
+
+    @Test
+    void calculateSignatureWithBodyPaytrailExample() throws NoSuchAlgorithmException, InvalidKeyException {
+        TreeMap<String, String> headers = new TreeMap<>();
+
+        headers.put("checkout-account", merchantId);
+        headers.put("checkout-algorithm", "sha256");
+        headers.put("checkout-method", "POST");
+        headers.put("checkout-nonce", "564635208570151");
+        headers.put("checkout-timestamp", "2018-07-06T10:01:31.904Z");
+        Gson gson = new Gson();
+
+        LinkedHashMap<String, Object> object = new LinkedHashMap<>();
+        ArrayList<Object> items = new ArrayList<>();
+        LinkedHashMap<String, Object> item = new LinkedHashMap<>();
+        LinkedHashMap<String, Object> customerEmail = new LinkedHashMap<>();
+        LinkedHashMap<String, Object> redirectUrls = new LinkedHashMap<>();
+
+        item.put("unitPrice", 1525);
+        item.put("units", 1);
+        item.put("vatPercentage", 24);
+        item.put("productCode", "#1234");
+        item.put("deliveryDate", "2018-09-01");
+        items.add(item);
+
+        customerEmail.put("email", "test.customer@example.com");
+
+        redirectUrls.put("success", "https://ecom.example.com/cart/success");
+        redirectUrls.put("cancel", "https://ecom.example.com/cart/cancel");
+
+        object.put("stamp", "unique-identifier-for-merchant");
+        object.put("reference", "3759170");
+        object.put("amount", 1525);
+        object.put("currency", "EUR");
+        object.put("language", "FI");
+
+        object.put("items", items);
+
+        object.put("customer", customerEmail);
+        object.put("redirectUrls", redirectUrls);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=" + StandardCharsets.UTF_8), gson.toJson(object));
+        Assertions.assertEquals(
+                "3708f6497ae7cc55a2e6009fc90aa10c3ad0ef125260ee91b19168750f6d74f6",
+                PaytrailSignatureService.calculateSignature(headers, requestBody, secretKey)
+        );
     }
 
 }
