@@ -163,6 +163,10 @@ public class PaytrailClient implements Serializable {
 
             log.info("defaultHttpClient original : {}", mapper.writeValueAsString(original));
             log.info("defaultHttpClient request : {}", mapper.writeValueAsString(request));
+            log.info("defaultHttpClient request original body : {}", mapper.writeValueAsString(original.body()));
+            log.info("defaultHttpClient request request body : {}", mapper.writeValueAsString(request.body()));
+            log.info("defaultHttpClient request original headers : {}", mapper.writeValueAsString(original.headers().toMultimap()));
+            log.info("defaultHttpClient request request headers : {}", mapper.writeValueAsString(request.headers().toMultimap()));
             log.info("defaultHttpClient checkoutSignatureParameters : {}", mapper.writeValueAsString(checkoutSignatureParameters));
             log.info("defaultHttpClient calculatedSignature : {}", mapper.writeValueAsString(calculatedSignature));
 

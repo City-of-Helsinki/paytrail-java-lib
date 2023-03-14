@@ -11,14 +11,15 @@ import org.helsinki.paytrail.model.payments.PaymentCustomer;
 import org.helsinki.paytrail.model.payments.PaymentItem;
 import org.helsinki.paytrail.model.payments.PaytrailPaymentResponse;
 import org.helsinki.paytrail.response.payments.PaytrailPaymentCreateResponse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @Slf4j
 class PaytrailPaymentCreateTest extends PaytrailCommonTest {
