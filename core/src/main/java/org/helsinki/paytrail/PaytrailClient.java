@@ -7,6 +7,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.helsinki.paytrail.exception.PaytrailResponseException;
+import org.helsinki.paytrail.mapper.ConfiguredObjectMapper;
 import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
 import org.helsinki.paytrail.request.common.PaytrailRequest;
 import org.helsinki.paytrail.response.PaytrailResponse;
@@ -70,7 +71,7 @@ public class PaytrailClient implements Serializable {
             @Override
             public void onFailure(Call call, IOException e) {
                 log.info("onFailure response for {}", call.request());
-                ObjectMapper mapper = new ObjectMapper();
+                ObjectMapper mapper = ConfiguredObjectMapper.getMapper();;
                 try {
                     log.info("defaultHttpClient request : {}", mapper.writeValueAsString(call.request()));
                 } catch (JsonProcessingException ex) {
@@ -83,11 +84,12 @@ public class PaytrailClient implements Serializable {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 log.info("Response for {} : {}", call.request().url().toString(), response.code());
+                log.info("Call for: {}", call);
+
                 debugResponseAndHeaders(call, response);
                 try (ResponseBody body = response.body()) {
                     String bodyString = body.string();
                     debugResponseBody(call, bodyString);
-                    ObjectMapper mapper = new ObjectMapper();
                     log.info("onResponse bodyString : {}", bodyString);
                     responseFuture.complete(new Pair<>(response, bodyString));
                 }
@@ -155,10 +157,13 @@ public class PaytrailClient implements Serializable {
                     .build();
 
             debugRequest(request);
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = ConfiguredObjectMapper.getMapper();
+
+            log.info("defaultHttpClient original : {}", mapper.writeValueAsString(original));
             log.info("defaultHttpClient request : {}", mapper.writeValueAsString(request));
             log.info("defaultHttpClient checkoutSignatureParameters : {}", mapper.writeValueAsString(checkoutSignatureParameters));
             log.info("defaultHttpClient calculatedSignature : {}", mapper.writeValueAsString(calculatedSignature));
+
             return chain.proceed(request);
         });
 
@@ -171,6 +176,5 @@ public class PaytrailClient implements Serializable {
             Files.writeString(Path.of("debug/"+ request.url().encodedPath().replace("/","-").substring(1) + "-headers-with-signature.json"), mapper.writeValueAsString(request.headers().toMultimap()));
         }
     }
-
 
 }

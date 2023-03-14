@@ -1,8 +1,6 @@
 package org.helsinki.paytrail.request.common;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +9,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.helsinki.paytrail.PaytrailClient;
 import org.helsinki.paytrail.constants.CheckoutMethod;
+import org.helsinki.paytrail.mapper.ConfiguredObjectMapper;
 import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
 import org.helsinki.paytrail.response.PaytrailResponse;
 
@@ -39,10 +38,7 @@ public abstract class PaytrailPostRequest<T extends PaytrailResponse> extends Pa
 		if (getPayload(client) == null) {
 			return RequestBody.create(null, "");
 		}
-		ObjectMapper objectMapper = new ObjectMapper()
-				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		ObjectMapper objectMapper = ConfiguredObjectMapper.getMapper();
 		Gson gson = getGson(true);
 		String payload = "";
 		try {
@@ -51,7 +47,7 @@ public abstract class PaytrailPostRequest<T extends PaytrailResponse> extends Pa
 			log.info("PaytrailPostRequest JsonProcessingException: {}", e.getMessage());
 		}
 
-		log.debug("Payload : {}", payload);
+		log.info("getRequestBody Payload : {}", payload);
 
 		return RequestBody.create(MediaType.parse("application/json; charset=" + StandardCharsets.UTF_8), payload);
 	}
