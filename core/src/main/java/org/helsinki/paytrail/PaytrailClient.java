@@ -44,7 +44,7 @@ public class PaytrailClient implements Serializable {
     private String customerMerchantId;
 
     public PaytrailClient(String internalMerchantId, String secretKey) {
-        this(internalMerchantId, secretKey, "wm3.1");
+        this(internalMerchantId, secretKey, "wm3.1", API_URL, defaultHttpClient(secretKey));
     }
 
     public PaytrailClient(String internalMerchantId, String secretKey, String version) {
@@ -71,7 +71,8 @@ public class PaytrailClient implements Serializable {
             @Override
             public void onFailure(Call call, IOException e) {
                 log.info("onFailure response for {}", call.request());
-                ObjectMapper mapper = ConfiguredObjectMapper.getMapper();;
+                ObjectMapper mapper = ConfiguredObjectMapper.getMapper();
+                ;
                 try {
                     log.info("defaultHttpClient request : {}", mapper.writeValueAsString(call.request()));
                 } catch (JsonProcessingException ex) {
@@ -117,12 +118,13 @@ public class PaytrailClient implements Serializable {
             String bodyWriteAsString = mapper.writeValueAsString(bodyString);
             bodyWriteAsString = bodyWriteAsString.substring(1);
             bodyWriteAsString = bodyWriteAsString.substring(0, bodyWriteAsString.length() - 1);
-            bodyWriteAsString = bodyWriteAsString.replace("\\\"","\"");
+            bodyWriteAsString = bodyWriteAsString.replace("\\\"", "\"");
             String nameOfResponseBody = call.request().url().encodedPath().replace("/", "-").substring(1) + "-body.json";
             log.info("{} : {}", nameOfResponseBody, bodyWriteAsString);
 
         }
     }
+
     private void debugResponseAndHeaders(Call call, Response response) throws IOException {
         if (Boolean.parseBoolean(System.getenv("DEBUG_CLIENT"))) {
             ObjectMapper mapper = new ObjectMapper();
@@ -173,7 +175,7 @@ public class PaytrailClient implements Serializable {
     private static void debugRequest(Request request) throws IOException {
         if (Boolean.parseBoolean(System.getenv("DEBUG_CLIENT"))) {
             ObjectMapper mapper = new ObjectMapper();
-            Files.writeString(Path.of("debug/"+ request.url().encodedPath().replace("/","-").substring(1) + "-headers-with-signature.json"), mapper.writeValueAsString(request.headers().toMultimap()));
+            Files.writeString(Path.of("debug/" + request.url().encodedPath().replace("/", "-").substring(1) + "-headers-with-signature.json"), mapper.writeValueAsString(request.headers().toMultimap()));
         }
     }
 
