@@ -1,9 +1,6 @@
 package org.helsinki.paytrail.request.payments;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.helsinki.paytrail.PaytrailClient;
 import org.helsinki.paytrail.model.payments.PaymentCallbackUrls;
@@ -49,6 +46,7 @@ public class PaytrailPaymentCreateRequest extends PaytrailPostRequest<PaytrailPa
         private String stamp;
         private String reference;
         private int amount;
+        private int callbackDelay = 60;
         private String currency;
         private String language;
         private ArrayList<PaymentItem> items;
