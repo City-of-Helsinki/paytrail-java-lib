@@ -9,7 +9,8 @@ public class PaymentItem {
     private String merchant;
     private int unitPrice;
     private int units;
-    private int vatPercentage;
+    // for decimal handling (KYV-1064)
+    private double vatPercentage;
     private String productCode;
     private String description;
     private String orderId;
