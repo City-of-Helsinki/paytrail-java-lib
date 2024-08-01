@@ -55,29 +55,30 @@ class PaytrailPaymentCreateMitChargeTest extends PaytrailCommonTest {
         return payload;
     }
 
-    @Test
-    public void createTestPayment() throws ExecutionException, InterruptedException {
-        PaytrailClient client = new PaytrailClient(merchantId, secretKey);
-        PaytrailPaymentCreateMitChargeRequest.CreateMitChargePayload payload = this.createPayload(this.cardToken1);
-
-        PaytrailPaymentCreateMitChargeRequest request = new PaytrailPaymentCreateMitChargeRequest(payload);
-        CompletableFuture<PaytrailPaymentCreateMitChargeResponse> response = client.sendRequest(request);
-
-        PaytrailPaymentCreateMitChargeResponse paymentCreateResponse = mapper.to(response.get());
-
-        try {
-            Gson gson = new Gson();
-            String json = gson.toJson(response.get());
-            System.out.println(json);
-            System.out.println(paymentCreateResponse.toString());
-
-            assertNull(paymentCreateResponse.getFailure());
-            assertNull(paymentCreateResponse.getErrors());
-            assertNotNull(paymentCreateResponse.getSuccess().getTransactionId());
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    // TODO: Fix this test. uses token for expired card
+//    @Test
+//    public void createTestPayment() throws ExecutionException, InterruptedException {
+//        PaytrailClient client = new PaytrailClient(merchantId, secretKey);
+//        PaytrailPaymentCreateMitChargeRequest.CreateMitChargePayload payload = this.createPayload(this.cardToken1);
+//
+//        PaytrailPaymentCreateMitChargeRequest request = new PaytrailPaymentCreateMitChargeRequest(payload);
+//        CompletableFuture<PaytrailPaymentCreateMitChargeResponse> response = client.sendRequest(request);
+//
+//        PaytrailPaymentCreateMitChargeResponse paymentCreateResponse = mapper.to(response.get());
+//
+//        try {
+//            Gson gson = new Gson();
+//            String json = gson.toJson(response.get());
+//            System.out.println(json);
+//            System.out.println(paymentCreateResponse.toString());
+//
+//            assertNull(paymentCreateResponse.getFailure());
+//            assertNull(paymentCreateResponse.getErrors());
+//            assertNotNull(paymentCreateResponse.getSuccess().getTransactionId());
+//        } catch (InterruptedException | ExecutionException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @Test
     public void createTestPaymentFailureWithBogusToken() throws ExecutionException, InterruptedException {
