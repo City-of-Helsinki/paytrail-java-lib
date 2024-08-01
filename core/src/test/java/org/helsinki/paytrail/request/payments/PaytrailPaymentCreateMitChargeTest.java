@@ -32,7 +32,7 @@ class PaytrailPaymentCreateMitChargeTest extends PaytrailCommonTest {
         PaymentItem paymentItem = new PaymentItem();
         paymentItem.setUnitPrice(1525);
         paymentItem.setUnits(1);
-        paymentItem.setVatPercentage(25.5);
+        paymentItem.setVatPercentage(24);
         paymentItem.setProductCode("#1234");
         ArrayList<PaymentItem> items1 = new ArrayList<>();
         items1.add(paymentItem);
