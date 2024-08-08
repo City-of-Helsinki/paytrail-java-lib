@@ -107,6 +107,7 @@ public class PaytrailClient implements Serializable {
             );
             return request.parseResponse(result);
         }).exceptionally((tr) -> {
+            log.info("responseFuture exception timeouts used - callTimeout: {}, connectTimeout: {}, writeTimeout: {}, readTimeout: {}", this.httpClient.callTimeoutMillis(), this.httpClient.connectTimeoutMillis(), this.httpClient.writeTimeoutMillis(), this.httpClient.readTimeoutMillis());
             log.info("responseFuture exception message: {}", tr.getMessage());
             return PaytrailResponseException.PaytrailFailedResponse.of(tr, request.getResponseType());
         });
