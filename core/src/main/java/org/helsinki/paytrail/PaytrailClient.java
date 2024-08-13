@@ -32,8 +32,8 @@ public class PaytrailClient implements Serializable {
 
     public final static String CHECKOUT_ALGORITHM = "sha256";
     public final static long DEFAULT_TIMEOUT_SECONDS = 60;
-    public final static long WRITE_TIMEOUT_SECONDS = 30;
-    public final static long READ_TIMEOUT_SECONDS = 30;
+    public final static long WRITE_TIMEOUT_SECONDS = 60;
+    public final static long READ_TIMEOUT_SECONDS = 60;
 
     private static final long serialVersionUID = -893265874836L;
     private final String internalMerchantId;
@@ -146,6 +146,7 @@ public class PaytrailClient implements Serializable {
         builder.connectTimeout(DEFAULT_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         builder.writeTimeout(WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
         builder.readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        builder.callTimeout(DEFAULT_TIMEOUT_SECONDS + WRITE_TIMEOUT_SECONDS + READ_TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
         builder.addInterceptor(chain -> {
             Request original = chain.request();
