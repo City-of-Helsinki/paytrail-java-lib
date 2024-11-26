@@ -12,6 +12,7 @@ import org.helsinki.paytrail.constants.CheckoutMethod;
 import org.helsinki.paytrail.mapper.ConfiguredObjectMapper;
 import org.helsinki.paytrail.request.contracts.paytrail.PaytrailPayload;
 import org.helsinki.paytrail.response.PaytrailResponse;
+import org.helsinki.paytrail.util.LogUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
@@ -47,7 +48,7 @@ public abstract class PaytrailPostRequest<T extends PaytrailResponse> extends Pa
 			log.info("PaytrailPostRequest JsonProcessingException: {}", e.getMessage());
 		}
 
-		log.info("getRequestBody Payload : {}", payload);
+		LogUtil.filteredLog(log,"getRequestBody Payload : " + payload);
 
 		return RequestBody.create(MediaType.parse("application/json; charset=" + StandardCharsets.UTF_8), payload);
 	}
