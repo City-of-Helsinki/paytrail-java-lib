@@ -12,7 +12,9 @@ import org.helsinki.paytrail.request.auth.constants.PaytrailAuthHeaders;
 import org.helsinki.paytrail.request.common.PaytrailRequest;
 import org.helsinki.paytrail.response.PaytrailResponse;
 import org.helsinki.paytrail.service.PaytrailSignatureService;
+import org.helsinki.paytrail.util.LogUtil;
 import org.helsinki.paytrail.util.Pair;
+import org.helsinki.paytrail.util.RequestUtil;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -93,7 +95,7 @@ public class PaytrailClient implements Serializable {
                 try (ResponseBody body = response.body()) {
                     String bodyString = body.string();
                     debugResponseBody(call, bodyString);
-                    log.info("onResponse bodyString : {}", bodyString);
+                    LogUtil.filteredLog(log,"onResponse bodyString : " + bodyString);
                     responseFuture.complete(new Pair<>(response, bodyString));
                 }
             }
@@ -102,10 +104,11 @@ public class PaytrailClient implements Serializable {
         });
 
         return responseFuture.thenApply(result -> {
-            log.info(
-                    "responseFuture Response for {} with body : {}",
-                    result.getKey().request().url(),
-                    result.getValue()
+            LogUtil.filteredLog(log,
+                    "responseFuture Response for " +
+                            result.getKey().request().url() +
+                            " with body : " +
+                            result.getValue()
             );
             return request.parseResponse(result);
         }).exceptionally((tr) -> {
